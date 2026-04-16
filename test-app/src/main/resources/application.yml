@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+log:
+  masking:
+    enabled: true
+    mask-char: '*'
+    credential:
+      replacement: "***"
+    pii:
+      show-first: 1
+      show-last: 2
+    financial:
+      show-last: 4
+    openapi:
+      enabled: true

@@ -1,0 +1,99 @@
+{
+  "groups": [
+    {
+      "name": "log.masking",
+      "type": "com.example.logmasking.autoconfigure.LogMaskingProperties",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties"
+    },
+    {
+      "name": "log.masking.credential",
+      "type": "com.example.logmasking.autoconfigure.LogMaskingProperties$Credential",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties",
+      "sourceMethod": "getCredential()"
+    },
+    {
+      "name": "log.masking.financial",
+      "type": "com.example.logmasking.autoconfigure.LogMaskingProperties$Financial",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties",
+      "sourceMethod": "getFinancial()"
+    },
+    {
+      "name": "log.masking.openapi",
+      "type": "com.example.logmasking.autoconfigure.LogMaskingProperties$OpenApi",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties",
+      "sourceMethod": "getOpenapi()"
+    },
+    {
+      "name": "log.masking.pii",
+      "type": "com.example.logmasking.autoconfigure.LogMaskingProperties$Pii",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties",
+      "sourceMethod": "getPii()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "log.masking.credential.replacement",
+      "type": "java.lang.String",
+      "description": "Fixed replacement string for credentials (hides original length).",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties$Credential",
+      "defaultValue": "***"
+    },
+    {
+      "name": "log.masking.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Master switch — disables the entire starter when false.",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "log.masking.financial.show-last",
+      "type": "java.lang.Integer",
+      "description": "Characters to leave unmasked at the end (typically last 4 digits).",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties$Financial",
+      "defaultValue": 4
+    },
+    {
+      "name": "log.masking.mask-char",
+      "type": "java.lang.Character",
+      "description": "Global default mask character.",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties",
+      "defaultValue": "*"
+    },
+    {
+      "name": "log.masking.openapi.credential-format",
+      "type": "java.lang.String",
+      "description": "OpenAPI format value for CREDENTIAL fields.",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties$OpenApi",
+      "defaultValue": "password"
+    },
+    {
+      "name": "log.masking.openapi.description-suffix",
+      "type": "java.lang.String",
+      "description": "Suffix appended to field descriptions.",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties$OpenApi",
+      "defaultValue": "[MASKED IN LOGS]"
+    },
+    {
+      "name": "log.masking.openapi.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable automatic OpenAPI schema enrichment when springdoc is on classpath.",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties$OpenApi",
+      "defaultValue": true
+    },
+    {
+      "name": "log.masking.pii.show-first",
+      "type": "java.lang.Integer",
+      "description": "Characters to leave unmasked at the start.",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties$Pii",
+      "defaultValue": 1
+    },
+    {
+      "name": "log.masking.pii.show-last",
+      "type": "java.lang.Integer",
+      "description": "Characters to leave unmasked at the end.",
+      "sourceType": "com.example.logmasking.autoconfigure.LogMaskingProperties$Pii",
+      "defaultValue": 2
+    }
+  ],
+  "hints": []
+}

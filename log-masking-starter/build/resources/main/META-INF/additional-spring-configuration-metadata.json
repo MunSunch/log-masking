@@ -1,0 +1,58 @@
+{
+  "properties": [
+    {
+      "name": "log.masking.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable or disable the log-masking starter entirely.",
+      "defaultValue": true
+    },
+    {
+      "name": "log.masking.mask-char",
+      "type": "java.lang.Character",
+      "description": "Global default mask character.",
+      "defaultValue": "*"
+    },
+    {
+      "name": "log.masking.credential.replacement",
+      "type": "java.lang.String",
+      "description": "Fixed replacement string for CREDENTIAL fields (hides original length).",
+      "defaultValue": "***"
+    },
+    {
+      "name": "log.masking.pii.show-first",
+      "type": "java.lang.Integer",
+      "description": "Characters to leave unmasked at the start for PII fields.",
+      "defaultValue": 1
+    },
+    {
+      "name": "log.masking.pii.show-last",
+      "type": "java.lang.Integer",
+      "description": "Characters to leave unmasked at the end for PII fields.",
+      "defaultValue": 2
+    },
+    {
+      "name": "log.masking.financial.show-last",
+      "type": "java.lang.Integer",
+      "description": "Characters to leave unmasked at the end for FINANCIAL fields (typically last 4 digits).",
+      "defaultValue": 4
+    },
+    {
+      "name": "log.masking.openapi.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable automatic OpenAPI schema enrichment when springdoc is on the classpath.",
+      "defaultValue": true
+    },
+    {
+      "name": "log.masking.openapi.description-suffix",
+      "type": "java.lang.String",
+      "description": "Suffix appended to OpenAPI field descriptions for masked fields.",
+      "defaultValue": "[MASKED IN LOGS]"
+    },
+    {
+      "name": "log.masking.openapi.credential-format",
+      "type": "java.lang.String",
+      "description": "OpenAPI format value applied to CREDENTIAL fields.",
+      "defaultValue": "password"
+    }
+  ]
+}
