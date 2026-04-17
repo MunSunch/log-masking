@@ -7,11 +7,15 @@ project:
   license: Apache-2.0
   links:
     homepage: https://github.com/MunSunch/log-masking
+  java:
+    groupId: io.github.munsunch
+    artifactId: log-masking-starter
+    version: '17'
 
 signing:
   active: ALWAYS
-  mode: MEMORY
   pgp:
+    mode: MEMORY
     armored: true
     verify: true
 
@@ -27,6 +31,7 @@ deploy:
       sonatype:
         active: ALWAYS
         url: https://central.sonatype.com/api/v1/publisher
+        namespace: io.github.munsunch
         stagingRepositories:
           - log-masking-starter/build/staging-deploy
         applyMavenCentralRules: true
