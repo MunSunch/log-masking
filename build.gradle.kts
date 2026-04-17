@@ -4,12 +4,15 @@ plugins {
 }
 
 subprojects {
-    group = "com.munsun"
-    version = "0.1.0-SNAPSHOT"
+    group = "io.github.munsunch"
+    version = findProperty("releaseVersion") as String? ?: "0.1.0-SNAPSHOT"
 
     // Relocate build output to an ASCII-safe path to avoid class-loading
     // issues when the project directory contains non-ASCII characters (e.g. Cyrillic on Windows).
-    layout.buildDirectory = file("C:/tmp/log-masking-build/${project.name}")
+    // Skipped on non-Windows (CI) where the default build/ directory works fine.
+    if (System.getProperty("os.name").lowercase().contains("windows")) {
+        layout.buildDirectory = file("C:/tmp/log-masking-build/${project.name}")
+    }
 
     repositories {
         mavenCentral()

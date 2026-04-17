@@ -15,7 +15,11 @@ Gradle multi-module project (Kotlin DSL). Java 17, Spring Boot 3.3.5, versions c
 ./gradlew :log-masking-starter:compileJava           # regenerate spring-configuration-metadata.json
 ```
 
-**Build output is relocated to `C:/tmp/log-masking-build/<module>`** (see `build.gradle.kts:12`). This is a workaround for class-loading failures when the project path contains non-ASCII characters (Cyrillic user profile on Windows). Do not revert the `layout.buildDirectory` override — move it only if you also move the whole project to an ASCII path.
+**On Windows, build output is relocated to `C:/tmp/log-masking-build/<module>`** (see `build.gradle.kts`). This is a workaround for class-loading failures when the project path contains non-ASCII characters (Cyrillic user profile on Windows). On Linux/macOS (including CI) the override is skipped and the default `build/` directory is used — required so `actions/upload-artifact` in `.github/workflows/release.yml` can read the JReleaser logs from `log-masking-starter/build/jreleaser/`.
+
+## Releasing to Maven Central
+
+Artifacts are published to Maven Central via Central Portal using `maven-publish` + **JReleaser** (see `log-masking-starter/build.gradle.kts`). The release version is supplied via `-PreleaseVersion=X.Y.Z` (fallback is `0.1.0-SNAPSHOT` for dev builds). CI pipeline: push a `vX.Y.Z` tag → `.github/workflows/release.yml` stages artifacts, signs with GPG, uploads to Central Portal. See `RELEASING.md` for full setup (namespace verification, GPG keys, GitHub secrets).
 
 ## Modules
 

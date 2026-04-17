@@ -1,2 +1,8 @@
 .idea/
 .gradle/
+build/
+out/
+# Signing keys — must never be committed
+*.asc
+*.gpg
+signing-key*

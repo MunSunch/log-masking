@@ -59,7 +59,7 @@ log.info("Создан пользователь: {}", user);
 
 ```kotlin
 dependencies {
-    implementation("com.munsun:log-masking-starter:0.1.0-SNAPSHOT")
+    implementation("io.github.munsunch:log-masking-starter:0.1.0")
 }
 ```
 
@@ -67,7 +67,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.munsun:log-masking-starter:0.1.0-SNAPSHOT'
+    implementation 'io.github.munsunch:log-masking-starter:0.1.0'
 }
 ```
 
@@ -75,9 +75,9 @@ dependencies {
 
 ```xml
 <dependency>
-    <groupId>com.munsun</groupId>
+    <groupId>io.github.munsunch</groupId>
     <artifactId>log-masking-starter</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 

@@ -2,10 +2,12 @@
 spring-boot = "3.3.5"
 springdoc = "2.6.0"
 dependency-management = "1.1.6"
+jreleaser = "1.23.0"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "dependency-management" }
+jreleaser = { id = "org.jreleaser", version.ref = "jreleaser" }
 
 [libraries]
 springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
