@@ -1,0 +1,34 @@
+project:
+  description: Annotation-driven masking of sensitive fields in Spring Boot 3 logs.
+  copyright: 2026 msunchalyaev
+  inceptionYear: '2026'
+  authors:
+    - msunchalyaev
+  license: Apache-2.0
+  links:
+    homepage: https://github.com/MunSunch/log-masking
+
+signing:
+  active: ALWAYS
+  armored: true
+  verify: true
+
+release:
+  github:
+    skipRelease: true
+    skipTag: true
+    overwrite: true
+
+deploy:
+  maven:
+    mavenCentral:
+      sonatype:
+        active: ALWAYS
+        url: https://central.sonatype.com/api/v1/publisher
+        stagingRepository: log-masking-starter/build/staging-deploy
+        applyMavenCentralRules: true
+        sign: true
+        checksums: true
+        sourceJar: true
+        javadocJar: true
+        retryDelay: 60

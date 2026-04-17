@@ -1,10 +1,7 @@
-import org.jreleaser.model.Active
-
 plugins {
     `java-library`
     `maven-publish`
     alias(libs.plugins.spring.dependency.management)
-    alias(libs.plugins.jreleaser)
 }
 
 java {
@@ -102,53 +99,6 @@ publishing {
                 issueManagement {
                     system.set("GitHub Issues")
                     url.set("https://github.com/MunSunch/log-masking/issues")
-                }
-            }
-        }
-    }
-}
-
-jreleaser {
-    gitRootSearch.set(true)
-
-    project {
-        description.set("Annotation-driven masking of sensitive fields in Spring Boot 3 logs.")
-        copyright.set("2026 msunchalyaev")
-        inceptionYear.set("2026")
-        authors.set(listOf("msunchalyaev"))
-        license.set("Apache-2.0")
-        links {
-            homepage.set("https://github.com/MunSunch/log-masking")
-        }
-    }
-
-    signing {
-        active.set(Active.ALWAYS)
-        armored.set(true)
-        verify.set(true)
-    }
-
-    release {
-        github {
-            skipRelease.set(true)
-            skipTag.set(true)
-            overwrite.set(true)
-        }
-    }
-
-    deploy {
-        maven {
-            mavenCentral {
-                register("sonatype") {
-                    active.set(Active.ALWAYS)
-                    url.set("https://central.sonatype.com/api/v1/publisher")
-                    stagingRepository(layout.buildDirectory.dir("staging-deploy").get().toString())
-                    applyMavenCentralRules.set(true)
-                    sign.set(true)
-                    checksums.set(true)
-                    sourceJar.set(true)
-                    javadocJar.set(true)
-                    retryDelay.set(60)
                 }
             }
         }

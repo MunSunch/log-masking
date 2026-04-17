@@ -83,16 +83,23 @@ gpg --armor --export-secret-keys <LONG_KEY_ID> > private.pgp
    ```
    Ожидается: `log-masking-starter-0.1.0.jar`, `-sources.jar`, `-javadoc.jar`,
    `.pom`, `.module` + чексуммы.
-4. Локальный dry-run JReleaser (без реальной загрузки):
+4. Локальный dry-run JReleaser (без реальной загрузки) — требует CLI
+   `jreleaser` (install: `brew install jreleaser` на macOS,
+   [standalone binary](https://github.com/jreleaser/jreleaser/releases) на Windows,
+   или Docker: `docker run --rm -v "$PWD":/workspace jreleaser/jreleaser-slim config`):
    ```bash
+   export JRELEASER_PROJECT_VERSION=0.1.0
    export JRELEASER_GPG_PASSPHRASE=...
    export JRELEASER_GPG_PUBLIC_KEY="$(cat public.pgp)"
    export JRELEASER_GPG_SECRET_KEY="$(cat private.pgp)"
    export JRELEASER_MAVENCENTRAL_USERNAME=...
    export JRELEASER_MAVENCENTRAL_TOKEN=...
    export JRELEASER_GITHUB_TOKEN=...
-   ./gradlew :log-masking-starter:publish :log-masking-starter:jreleaserConfig -PreleaseVersion=0.1.0
+
+   ./gradlew :log-masking-starter:publish -PreleaseVersion=0.1.0
+   jreleaser config   # проверить конфиг без загрузки
    ```
+   Можно пропустить и положиться на CI — push тега уже делает полный прогон.
 5. Запушить git-тег вида `vX.Y.Z`:
    ```bash
    git tag -a v0.1.0 -m "Release 0.1.0"
@@ -114,27 +121,32 @@ gpg --armor --export-secret-keys <LONG_KEY_ID> > private.pgp
 # Собрать всё и прогнать тесты
 ./gradlew build
 
-# Собрать артефакты в C:/tmp/log-masking-build/log-masking-starter/staging-deploy/
+# Стейдж артефактов для Central Portal (→ log-masking-starter/build/staging-deploy/
+# на Linux/macOS, C:/tmp/log-masking-build/log-masking-starter/staging-deploy/ на Windows)
 ./gradlew :log-masking-starter:publish -PreleaseVersion=0.1.0
 
-# Проверить конфигурацию JReleaser (требует env vars)
-./gradlew :log-masking-starter:jreleaserConfig -PreleaseVersion=0.1.0
+# Проверить конфигурацию JReleaser (требует CLI и env vars, см. пункт 4 чеклиста)
+jreleaser config
 
-# Полный релиз (подпись + загрузка + публикация в Central Portal)
-./gradlew :log-masking-starter:jreleaserFullRelease -PreleaseVersion=0.1.0
+# Полный релиз: подпись + загрузка + публикация в Central Portal (делает CI из тега)
+jreleaser full-release
 ```
 
 Параметр `-PreleaseVersion=X.Y.Z` перезаписывает дефолтное `0.1.0-SNAPSHOT` на
 время релиза без правок `build.gradle.kts`. В ежедневной разработке версия
 остаётся SNAPSHOT-ом.
 
+Конфиг JReleaser лежит в `jreleaser.yml` в корне репо. Gradle-плагин
+`org.jreleaser` был убран из-за конфликта `commons-compress` на classpath
+Gradle — вместо него используется standalone CLI.
+
 ---
 
 ## Траблшутинг
 
-**`Deployer mavenCentral:sonatype is not enabled. Skipping`** при `jreleaserConfig`.
+**`Deployer mavenCentral:sonatype is not enabled. Skipping`** при `jreleaser config`.
 JReleaser пропускает деплой для `-SNAPSHOT`-версий (Central Portal принимает
-релизы только на release-URL). Передайте `-PreleaseVersion=0.1.0`.
+релизы только на release-URL). Установите `JRELEASER_PROJECT_VERSION=0.1.0`.
 
 **`signing.pgp.secretKey не может быть пустым`.** Переменные `JRELEASER_GPG_*`
 не попали в процесс. В shell делайте `export`, а не просто присваивание;
