@@ -75,20 +75,20 @@ gpg --armor --export-secret-keys <LONG_KEY_ID> > private.pgp
 ## Чеклист релиза
 
 1. Убедиться, что `main` собирается зелёным: `./gradlew build`.
-2. Определить номер релиза (semver, **без `-SNAPSHOT`**), например `0.1.0`.
+2. Определить номер релиза (semver, **без `-SNAPSHOT`**), например `0.2.0`.
 3. Локальная проверка публикации (в `~/.m2/repository`):
    ```bash
-   ./gradlew :log-masking-starter:publishToMavenLocal -PreleaseVersion=0.1.0
-   ls ~/.m2/repository/io/github/munsunch/log-masking-starter/0.1.0/
+   ./gradlew :log-masking-starter:publishToMavenLocal -PreleaseVersion=0.2.0
+   ls ~/.m2/repository/io/github/munsunch/log-masking-starter/0.2.0/
    ```
-   Ожидается: `log-masking-starter-0.1.0.jar`, `-sources.jar`, `-javadoc.jar`,
+   Ожидается: `log-masking-starter-0.2.0.jar`, `-sources.jar`, `-javadoc.jar`,
    `.pom`, `.module` + чексуммы.
 4. Локальный dry-run JReleaser (без реальной загрузки) — требует CLI
    `jreleaser` (install: `brew install jreleaser` на macOS,
    [standalone binary](https://github.com/jreleaser/jreleaser/releases) на Windows,
    или Docker: `docker run --rm -v "$PWD":/workspace jreleaser/jreleaser-slim config`):
    ```bash
-   export JRELEASER_PROJECT_VERSION=0.1.0
+   export JRELEASER_PROJECT_VERSION=0.2.0
    export JRELEASER_GPG_PASSPHRASE=...
    export JRELEASER_GPG_PUBLIC_KEY="$(cat public.pgp)"
    export JRELEASER_GPG_SECRET_KEY="$(cat private.pgp)"
@@ -96,14 +96,14 @@ gpg --armor --export-secret-keys <LONG_KEY_ID> > private.pgp
    export JRELEASER_MAVENCENTRAL_TOKEN=...
    export JRELEASER_GITHUB_TOKEN=...
 
-   ./gradlew :log-masking-starter:publish -PreleaseVersion=0.1.0
+   ./gradlew :log-masking-starter:publish -PreleaseVersion=0.2.0
    jreleaser config   # проверить конфиг без загрузки
    ```
    Можно пропустить и положиться на CI — push тега уже делает полный прогон.
 5. Запушить git-тег вида `vX.Y.Z`:
    ```bash
-   git tag -a v0.1.0 -m "Release 0.1.0"
-   git push origin v0.1.0
+   git tag -a v0.2.0 -m "Release 0.2.0"
+   git push origin v0.2.0
    ```
    Workflow `.github/workflows/release.yml` подхватит тег, соберёт артефакты,
    подпишет их и загрузит в Central Portal.
@@ -111,7 +111,7 @@ gpg --armor --export-secret-keys <LONG_KEY_ID> > private.pgp
    валидации и нажать **Publish** (ручная публикация включена флагом
    `automaticRelease = false` — можно переключить позже, когда пайплайн устоится).
 7. Через ~30 минут артефакт появится на
-   `https://repo1.maven.org/maven2/io/github/munsunch/log-masking-starter/0.1.0/`.
+   `https://repo1.maven.org/maven2/io/github/munsunch/log-masking-starter/0.2.0/`.
 
 ---
 
@@ -123,7 +123,7 @@ gpg --armor --export-secret-keys <LONG_KEY_ID> > private.pgp
 
 # Стейдж артефактов для Central Portal (→ log-masking-starter/build/staging-deploy/
 # на Linux/macOS, C:/tmp/log-masking-build/log-masking-starter/staging-deploy/ на Windows)
-./gradlew :log-masking-starter:publish -PreleaseVersion=0.1.0
+./gradlew :log-masking-starter:publish -PreleaseVersion=0.2.0
 
 # Проверить конфигурацию JReleaser (требует CLI и env vars, см. пункт 4 чеклиста)
 jreleaser config
@@ -132,7 +132,7 @@ jreleaser config
 jreleaser full-release
 ```
 
-Параметр `-PreleaseVersion=X.Y.Z` перезаписывает дефолтное `0.1.0-SNAPSHOT` на
+Параметр `-PreleaseVersion=X.Y.Z` перезаписывает дефолтное `0.2.0-SNAPSHOT` на
 время релиза без правок `build.gradle.kts`. В ежедневной разработке версия
 остаётся SNAPSHOT-ом.
 
@@ -146,7 +146,7 @@ Gradle — вместо него используется standalone CLI.
 
 **`Deployer mavenCentral:sonatype is not enabled. Skipping`** при `jreleaser config`.
 JReleaser пропускает деплой для `-SNAPSHOT`-версий (Central Portal принимает
-релизы только на release-URL). Установите `JRELEASER_PROJECT_VERSION=0.1.0`.
+релизы только на release-URL). Установите `JRELEASER_PROJECT_VERSION=0.2.0`.
 
 **`signing.pgp.secretKey не может быть пустым`.** Переменные `JRELEASER_GPG_*`
 не попали в процесс. В shell делайте `export`, а не просто присваивание;

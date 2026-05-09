@@ -62,7 +62,7 @@ log.info("Создан пользователь: {}", user);
 ```kotlin
 // Gradle (Kotlin DSL)
 dependencies {
-    implementation("io.github.munsunch:log-masking-starter:0.1.0")
+    implementation("io.github.munsunch:log-masking-starter:0.2.0")
 }
 ```
 
@@ -71,7 +71,7 @@ dependencies {
 <dependency>
     <groupId>io.github.munsunch</groupId>
     <artifactId>log-masking-starter</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -197,7 +197,7 @@ plugins {
 }
 
 dependencies {
-    implementation("io.github.munsunch:log-masking-starter:0.1.0")
+    implementation("io.github.munsunch:log-masking-starter:0.2.0")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 }
@@ -207,7 +207,7 @@ val maskingTemplates: Configuration by configurations.creating
 val templatesDir = layout.buildDirectory.dir("openapi-templates")
 
 dependencies {
-    maskingTemplates("io.github.munsunch:log-masking-starter:0.1.0")
+    maskingTemplates("io.github.munsunch:log-masking-starter:0.2.0")
 }
 
 val unpackMaskingTemplates by tasks.registering(Sync::class) {

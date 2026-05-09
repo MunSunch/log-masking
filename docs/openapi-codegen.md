@@ -96,8 +96,8 @@ val maskingTemplates: Configuration by configurations.creating
 val templatesDir = layout.buildDirectory.dir("openapi-templates")
 
 dependencies {
-    implementation("io.github.munsunch:log-masking-starter:0.1.0")
-    maskingTemplates("io.github.munsunch:log-masking-starter:0.1.0")
+    implementation("io.github.munsunch:log-masking-starter:0.2.0")
+    maskingTemplates("io.github.munsunch:log-masking-starter:0.2.0")
 }
 
 val unpackMaskingTemplates by tasks.registering(Sync::class) {
@@ -170,7 +170,7 @@ unpacking from a JAR.
                 <artifactItem>
                   <groupId>io.github.munsunch</groupId>
                   <artifactId>log-masking-starter</artifactId>
-                  <version>0.1.0</version>
+                  <version>0.2.0</version>
                   <includes>openapi-templates/v7/spring/**</includes>
                   <outputDirectory>${project.build.directory}/openapi-templates-raw</outputDirectory>
                 </artifactItem>

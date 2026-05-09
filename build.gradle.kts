@@ -5,7 +5,7 @@ plugins {
 
 subprojects {
     group = "io.github.munsunch"
-    version = findProperty("releaseVersion") as String? ?: "0.1.0-SNAPSHOT"
+    version = findProperty("releaseVersion") as String? ?: "0.2.0-SNAPSHOT"
 
     // Relocate build output to an ASCII-safe path to avoid class-loading
     // issues when the project directory contains non-ASCII characters (e.g. Cyrillic on Windows).
