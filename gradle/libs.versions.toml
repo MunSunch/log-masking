@@ -2,10 +2,13 @@
 spring-boot = "3.3.5"
 springdoc = "2.6.0"
 dependency-management = "1.1.6"
+openapi-generator = "7.22.0"
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "dependency-management" }
+openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-generator" }
 
 [libraries]
 springdoc-openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
+openapi-generator = { module = "org.openapitools:openapi-generator", version.ref = "openapi-generator" }

@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info:
+  title: Codegen test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    UserDto:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+          x-masked:
+            type: CREDENTIAL
+        email:
+          type: string
+          x-masked:
+            type: PII
+            showFirst: 1
+            showLast: 2
+        cardNumber:
+          type: string
+          x-masked:
+            type: FINANCIAL
+            showLast: 4
+        ssn:
+          type: string
+          x-masked:
+            replacement: "[REDACTED]"
+        custom:
+          type: string
+          x-masked:
+            type: CUSTOM
+            maskChar: "#"

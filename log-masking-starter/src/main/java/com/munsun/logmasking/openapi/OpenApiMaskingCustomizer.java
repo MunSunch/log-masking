@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.springdoc.core.customizers.OpenApiCustomizer;
 
 import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -66,8 +67,7 @@ public class OpenApiMaskingCustomizer implements OpenApiCustomizer {
                 if (propSchema == null) {
                     continue;
                 }
-                propSchema.addExtension("x-masked", true);
-                propSchema.addExtension("x-mask-type", masked.type().name());
+                propSchema.addExtension("x-masked", buildMaskedExtension(masked));
 
                 String desc = propSchema.getDescription();
                 String suffix = config.getDescriptionSuffix();
@@ -83,5 +83,29 @@ public class OpenApiMaskingCustomizer implements OpenApiCustomizer {
             }
             current = current.getSuperclass();
         }
+    }
+
+    /**
+     * Builds the compact {@code x-masked} extension object that mirrors the
+     * fields of the {@link Masked} annotation. Optional parameters are emitted
+     * only when explicitly set, keeping the YAML/JSON minimal and round-trip
+     * compatible with the openapi-generator templates.
+     */
+    private static Map<String, Object> buildMaskedExtension(Masked masked) {
+        Map<String, Object> ext = new LinkedHashMap<>();
+        ext.put("type", masked.type().name());
+        if (masked.showFirst() >= 0) {
+            ext.put("showFirst", masked.showFirst());
+        }
+        if (masked.showLast() >= 0) {
+            ext.put("showLast", masked.showLast());
+        }
+        if (masked.maskChar() != '\0') {
+            ext.put("maskChar", String.valueOf(masked.maskChar()));
+        }
+        if (!masked.replacement().isEmpty()) {
+            ext.put("replacement", masked.replacement());
+        }
+        return ext;
     }
 }

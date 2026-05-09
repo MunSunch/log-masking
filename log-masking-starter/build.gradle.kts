@@ -26,6 +26,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(libs.springdoc.openapi)
+    testImplementation(libs.openapi.generator)
 }
 
 tasks.withType<Test> {

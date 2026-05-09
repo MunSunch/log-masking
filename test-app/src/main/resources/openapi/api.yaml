@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: Customer & Order Demo API
+  version: 1.0.0
+  description: |
+    Contract-first sample for log-masking-starter.
+    Each schema property tagged with `x-masked` is emitted with the
+    `@Masked` annotation by the bundled openapi-generator templates.
+
+servers:
+  - url: http://localhost:8080
+    description: Local dev
+
+tags:
+  - name: customers
+    description: Customer registration and lookup
+  - name: orders
+    description: Order placement
+
+paths:
+  /api/v2/customers:
+    post:
+      tags: [customers]
+      operationId: createCustomer
+      summary: Register a new customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CustomerRequest' }
+      responses:
+        '201':
+          description: Customer created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Customer' }
+
+  /api/v2/customers/{customerId}:
+    get:
+      tags: [customers]
+      operationId: getCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Customer' }
+
+  /api/v2/orders:
+    post:
+      tags: [orders]
+      operationId: placeOrder
+      summary: Place a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/OrderRequest' }
+      responses:
+        '201':
+          description: Order placed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+
+components:
+  schemas:
+
+    CustomerRequest:
+      type: object
+      required: [fullName, email, password, taxId]
+      properties:
+        fullName:
+          type: string
+          description: Full legal name
+          x-masked: { type: PII, showFirst: 1, showLast: 1 }
+        email:
+          type: string
+          format: email
+          x-masked: { type: PII, showFirst: 1, showLast: 2 }
+        phone:
+          type: string
+          x-masked: { type: PII, showFirst: 2, showLast: 2 }
+        password:
+          type: string
+          format: password
+          description: Account password
+          x-masked: { type: CREDENTIAL }
+        taxId:
+          type: string
+          description: National tax identifier
+          x-masked: { replacement: "[CLASSIFIED]" }
+
+    Customer:
+      type: object
+      required: [id, fullName]
+      properties:
+        id:
+          type: string
+        fullName:
+          type: string
+          x-masked: { type: PII, showFirst: 1, showLast: 1 }
+        email:
+          type: string
+          x-masked: { type: PII, showFirst: 1, showLast: 2 }
+        phone:
+          type: string
+          x-masked: { type: PII, showFirst: 2, showLast: 2 }
+
+    OrderRequest:
+      type: object
+      required: [customerId, cardNumber, cvv, amount]
+      properties:
+        customerId:
+          type: string
+        amount:
+          type: number
+          format: double
+          minimum: 0
+        cardNumber:
+          type: string
+          description: Primary Account Number (PAN)
+          x-masked: { type: FINANCIAL, showLast: 4 }
+        cvv:
+          type: string
+          minLength: 3
+          maxLength: 4
+          x-masked: { type: CREDENTIAL }
+
+    Order:
+      type: object
+      required: [id, customerId, amount]
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        amount:
+          type: number
+          format: double
+        cardNumber:
+          type: string
+          x-masked: { type: FINANCIAL, showLast: 4 }
